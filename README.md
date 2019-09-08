@@ -1,6 +1,6 @@
 # mias-mammography-faster-rcnn
 
-# Installation instruction
+## Installation instructions
 
 ```
 conda create --name mias-mammography
