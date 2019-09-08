@@ -2,4 +2,9 @@ pandas
 numpy
 matplotlib
 keras
+Cython
+contextlib2
+pillow
+lxml
+jupyter
 tensorflow
