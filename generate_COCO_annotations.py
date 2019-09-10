@@ -59,35 +59,37 @@ def generate_annotations(pd_data, images_folder, output_path, box_class=False, a
         X = img_data["X"].values[0]
         Y = img_data["Y"].values[0]
         R = img_data["RADIUS"].values[0]
-
-        # Compute coords and class
-        img, [x1, y1, x2, y2] = data_augment(img, X, Y, R, augment_factor)
         if box_class:
             CLASS_ID = 0
         else:
             CLASS = img_data["CLASS"].values[0]
             CLASS_ID = classes.index(CLASS)
         
-        # Img writing
-        img_path_jpg = "{}/{}.jpg".format(output_path, img_name)
-        cv2.imwrite(img_path_jpg, img)
+        # Augmentation
+        images, bboxes = data_augment(img, X, Y, R, augment_factor)
         
-        # Img Annotations
-        annotations["images"].append({
-            "id": img_path.split("/")[-1][:-4],
-            "width": 1024,
-            "height": 1024,
-            "file_name": img_path.split("/")[-1],
-        })
-        
-        # Bbox Annotations
-        if x1 and x2 and y1 and y2:
-            annotations["annotations"].append({
-                "id": "{}{}".format(img_name, CLASS_ID),
-                "category_id": CLASS_ID,
-                "image_id": img_name,
-                "bbox": [x1, y1, x2 - x1, y2 - y1],
+        for i, bbox in enumerate(bboxes):
+            # Img writing
+            img_path_jpg = "{}/{}{}.jpg".format(output_path, img_name, i)
+            cv2.imwrite(img_path_jpg, images[i])
+            
+            # Img Annotations
+            annotations["images"].append({
+                "id": img_path.split("/")[-1][:-4],
+                "width": 1024,
+                "height": 1024,
+                "file_name": img_path.split("/")[-1],
             })
+            
+            # Bbox Annotations
+            if len(bbox):
+                x1, y1, x2, y2 = bbox
+                annotations["annotations"].append({
+                    "id": "{}{}{}".format(img_name, i, CLASS_ID),
+                    "category_id": CLASS_ID,
+                    "image_id": img_name,
+                    "bbox": [x1, y1, x2 - x1, y2 - y1],
+                })
     
     # Annotations writing
     with open("{}/annotations.json".format(output_path), "w") as f:
@@ -95,6 +97,7 @@ def generate_annotations(pd_data, images_folder, output_path, box_class=False, a
 
 if __name__ == "__main__":
     args = parse_args()
+    args.augment_factor = int(args.augment_factor)
     create_required_folders(args.output)
     pd_data = read_annotations_file(args.annotations)
     generate_annotations(pd_data, args.images, args.output, box_class=args.box_class, augment_factor=args.augment_factor)

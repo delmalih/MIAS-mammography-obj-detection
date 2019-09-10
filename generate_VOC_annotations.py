@@ -58,33 +58,37 @@ def generate_annotations(pd_data, images_folder, output_path, box_class=False, a
         Y = img_data["Y"].values[0]
         R = img_data["RADIUS"].values[0]
         CLASS = "box" if box_class else img_data["CLASS"].values[0]
-        img, [x1, y1, x2, y2] = data_augment(img, X, Y, R, augment_factor)
-        if x1 and x2 and y1 and y2:
-            obj = ET.SubElement(annotation, "object")
-            name = ET.SubElement(obj, "name")
-            name.text = CLASS
-            difficult = ET.SubElement(obj, "difficult")
-            difficult.text = "0"
-            bndbox = ET.SubElement(obj, "bndbox")
-            xmin = ET.SubElement(bndbox, "xmin")
-            xmin.text = str(int(x1))
-            ymin = ET.SubElement(bndbox, "ymin")
-            ymin.text = str(int(y1))
-            xmax = ET.SubElement(bndbox, "xmax")
-            xmax.text = str(int(x2))
-            ymax = ET.SubElement(bndbox, "ymax")
-            ymax.text = str(int(y2))
+        images, bboxes = data_augment(img, X, Y, R, augment_factor)
+        for i, bbox in enumerate(bboxes):
+            # Write bbox
+            if len(bbox):
+                x1, y1, x2, y2 = bbox
+                obj = ET.SubElement(annotation, "object")
+                name = ET.SubElement(obj, "name")
+                name.text = CLASS
+                difficult = ET.SubElement(obj, "difficult")
+                difficult.text = "0"
+                bndbox = ET.SubElement(obj, "bndbox")
+                xmin = ET.SubElement(bndbox, "xmin")
+                xmin.text = str(int(x1))
+                ymin = ET.SubElement(bndbox, "ymin")
+                ymin.text = str(int(y1))
+                xmax = ET.SubElement(bndbox, "xmax")
+                xmax.text = str(int(x2))
+                ymax = ET.SubElement(bndbox, "ymax")
+                ymax.text = str(int(y2))
         
-        # Writing Image
-        img_path_jpg = "{}/JPEGImages/{}.jpg".format(output_path, img_name)
-        cv2.imwrite(img_path_jpg, img)
+            # Writing Image
+            img_path_jpg = "{}/JPEGImages/{}{}.jpg".format(output_path, img_name, i)
+            cv2.imwrite(img_path_jpg, images[i])
 
-        # Writing XML Annotation
-        with open("{}/Annotations/{}.xml".format(output_path, img_name), "w") as xmlfile:
-            xmlfile.write(prettify(annotation))
+            # Writing XML Annotation
+            with open("{}/Annotations/{}{}.xml".format(output_path, img_name, i), "w") as xmlfile:
+                xmlfile.write(prettify(annotation))
 
 if __name__ == "__main__":
     args = parse_args()
+    args.augment_factor = int(args.augment_factor)
     create_required_folders(args.output)
     pd_data = read_annotations_file(args.annotations)
     generate_annotations(pd_data, args.images, args.output, box_class=args.box_class, augment_factor=args.augment_factor)
