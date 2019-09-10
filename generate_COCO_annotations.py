@@ -1,11 +1,14 @@
 # Imports
 
+""" Global """
 from glob import glob
-import pandas as pd
 import argparse
 import os, shutil, json
 from tqdm import tqdm
 import cv2
+
+""" Local """
+from utils import read_annotations_file, data_augment
 
 # Functions
 
@@ -15,6 +18,7 @@ def parse_args():
     parser.add_argument("-a", "--annotations", dest="annotations", help="Path to the .txt annotations file")
     parser.add_argument("-o", "--output", dest="output", help="Path to output COCO folder")
     parser.add_argument("--box", dest="box_class", help="Mix all classes to one 'box' class", action="store_true")
+    parser.add_argument("--aug_fact", dest="augment_factor", help="Times for data augmentation", default=1)
     return parser.parse_args()
 
 def create_required_folders(path):
@@ -24,29 +28,12 @@ def create_required_folders(path):
     
     os.makedirs(path)
 
-def read_annotations_file(path):
-    pd_data = pd.read_table(path, delimiter=" ")
-    pd_data = pd_data[pd_data.columns[:-1]]
-    pd_data["path"] = pd_data["REFNUM"].map(lambda x: "%s.pgm" % x)
-    return pd_data
-
-def generate_annotations(pd_data, images_folder, output_path, box_class=False):
+def generate_annotations(pd_data, images_folder, output_path, box_class=False, augment_factor=1):
     # Init. annotations
     annotations = {}
-
-    # Images
-    image_paths = glob(images_folder + "/*.pgm")
+    annotations["categories"] = []
     annotations["images"] = []
-    for img_path in tqdm(image_paths, desc="Image conversion"):
-        img = cv2.imread(img_path)
-        img_path_jpg = "{}/{}.jpg".format(output_path, img_path.split("/")[-1])
-        cv2.imwrite(img_path_jpg, img)
-        annotations["images"].append({
-            "id": img_path.split("/")[-1][:-4],
-            "width": 1024,
-            "height": 1024,
-            "file_name": img_path.split("/")[-1],
-        })
+    annotations["annotations"] = []
 
     # Categories
     if box_class:
@@ -62,28 +49,47 @@ def generate_annotations(pd_data, images_folder, output_path, box_class=False):
             "name": c,
         } for i, c in enumerate(classes)]
 
-    # Annotations
-    annotations["annotations"] = []
-    for img_path in tqdm(image_paths, desc="Annotation generation"):
+    # Images & Bboxes
+    image_paths = glob(images_folder + "/*.pgm")
+    for img_path in tqdm(image_paths):
+        # Getting data
+        img = cv2.imread(img_path)
         img_name = img_path.split("/")[-1][:-4]
-        pd_img_data = pd_data[pd_data["REFNUM"] == img_name]
-        X = pd_img_data["X"].values[0]
-        Y = pd_img_data["Y"].values[0]
-        RADIUS = pd_img_data["RADIUS"].values[0]
+        img_data = pd_data[pd_data["REFNUM"] == img_name]
+        X = img_data["X"].values[0]
+        Y = img_data["Y"].values[0]
+        R = img_data["RADIUS"].values[0]
+
+        # Compute coords and class
+        img, [x1, y1, x2, y2] = data_augment(img, X, Y, R, augment_factor)
         if box_class:
             CLASS_ID = 0
         else:
-            CLASS = pd_img_data["CLASS"].values[0]
+            CLASS = img_data["CLASS"].values[0]
             CLASS_ID = classes.index(CLASS)
-        if X == X and Y == Y and RADIUS == RADIUS:
+        
+        # Img writing
+        img_path_jpg = "{}/{}.jpg".format(output_path, img_name)
+        cv2.imwrite(img_path_jpg, img)
+        
+        # Img Annotations
+        annotations["images"].append({
+            "id": img_path.split("/")[-1][:-4],
+            "width": 1024,
+            "height": 1024,
+            "file_name": img_path.split("/")[-1],
+        })
+        
+        # Bbox Annotations
+        if x1 and x2 and y1 and y2:
             annotations["annotations"].append({
                 "id": "{}{}".format(img_name, CLASS_ID),
                 "category_id": CLASS_ID,
                 "image_id": img_name,
-                "area": RADIUS**2,
-                "bbox": [X - RADIUS, Y - RADIUS, RADIUS, RADIUS],
+                "bbox": [x1, y1, x2 - x1, y2 - y1],
             })
     
+    # Annotations writing
     with open("{}/annotations.json".format(output_path), "w") as f:
         json.dump(annotations, f, indent=4)
 
@@ -91,4 +97,4 @@ if __name__ == "__main__":
     args = parse_args()
     create_required_folders(args.output)
     pd_data = read_annotations_file(args.annotations)
-    generate_annotations(pd_data, args.images, args.output, box_class=args.box_class)
+    generate_annotations(pd_data, args.images, args.output, box_class=args.box_class, augment_factor=args.augment_factor)
