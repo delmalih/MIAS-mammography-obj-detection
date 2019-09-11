@@ -5,6 +5,8 @@ import imageio
 import numpy as np
 from PIL import Image
 import torch
+import argparse
+import json
 
 # Dataset
 
@@ -69,3 +71,23 @@ class MIASDataset(object):
     
     def __len__(self):
         return len(self.images)
+
+if __name__ == "__main__":
+    # Parser
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--dataset_path", dest="dataset_path", help="Path to the COCO dataset")
+    args = parser.parse_args()
+
+    images_path = args.dataset_path
+    annotations_path = "{}/annotations.json".format(args.dataset_path)
+    with open(annotations_path, "r") as json_annotations:
+        coco_annotations = json.load(json_annotations)
+    
+    print("[ Dataset Loading ... ]")
+    Dataset = MIASDataset(coco_annotations, images_path)
+    print("[ OK ! ]")
+
+    print("[ Dataset Length ... ]")
+    length = len(Dataset)
+    print(length)
+    print("[ OK ! ]")
