@@ -75,7 +75,7 @@ class MIASDataset(object):
 if __name__ == "__main__":
     # Parser
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--dataset_path", dest="dataset_path", help="Path to the COCO dataset")
+    parser.add_argument("-d", "--dataset_path", dest="dataset_path", help="Path to the COCO dataset", required=True)
     args = parser.parse_args()
 
     images_path = args.dataset_path

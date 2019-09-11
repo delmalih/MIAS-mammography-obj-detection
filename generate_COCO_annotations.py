@@ -14,9 +14,9 @@ from utils import read_annotations_file, data_augment
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-i", "--images", dest="images", help="Path to the images folder")
-    parser.add_argument("-a", "--annotations", dest="annotations", help="Path to the .txt annotations file")
-    parser.add_argument("-o", "--output", dest="output", help="Path to output COCO folder")
+    parser.add_argument("-i", "--images", dest="images", help="Path to the images folder", required=True)
+    parser.add_argument("-a", "--annotations", dest="annotations", help="Path to the .txt annotations file", required=True)
+    parser.add_argument("-o", "--output", dest="output", help="Path to output COCO folder", required=True)
     parser.add_argument("--box", dest="box_class", help="Mix all classes to one 'box' class", action="store_true")
     parser.add_argument("--aug_fact", dest="augment_factor", help="Times for data augmentation", default=1)
     return parser.parse_args()
