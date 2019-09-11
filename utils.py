@@ -37,9 +37,9 @@ def data_augment(image, X, Y, R, factor):
     if factor <= 1:
         if X==X and Y==Y and R==R:
             x1 = X - R
-            y1 = Y - R
+            y1 = 1024 - (Y - R)
             x2 = X + R
-            y2 = Y + R
+            y2 = 1024 - (Y + R)
         images.append(image)
         bboxes.append([x1, y1, x2, y2])
     else:
