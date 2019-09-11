@@ -1,10 +1,5 @@
 pandas
-numpy
-matplotlib
-keras
-Cython
-contextlib2
-pillow
-lxml
-jupyter
-tensorflow
+imgaug
+tqdm
+opencv-python
+opencv-contrib-python

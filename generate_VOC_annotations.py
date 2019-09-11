@@ -62,7 +62,7 @@ def generate_annotations(pd_data, images_folder, output_path, box_class=False, a
         for i, bbox in enumerate(bboxes):
             # Write bbox
             if len(bbox):
-                x1, y1, x2, y2 = bbox
+                x1, y1, x2, y2 = map(int, bbox)
                 obj = ET.SubElement(annotation, "object")
                 name = ET.SubElement(obj, "name")
                 name.text = CLASS

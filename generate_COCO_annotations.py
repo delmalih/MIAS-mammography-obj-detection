@@ -83,7 +83,7 @@ def generate_annotations(pd_data, images_folder, output_path, box_class=False, a
             
             # Bbox Annotations
             if len(bbox):
-                x1, y1, x2, y2 = bbox
+                x1, y1, x2, y2 = map(int, bbox)
                 annotations["annotations"].append({
                     "id": "{}{}{}".format(img_name, i, CLASS_ID),
                     "category_id": CLASS_ID,
