@@ -11,17 +11,21 @@ import json
 # Dataset
 
 class MIASDataset(object):
-    def __init__(self, coco_annotations, images_path):
+    def __init__(self, coco_dataset_path):
+        annotations_path = "{}/annotations.json".format(args.dataset_path)
+        with open(annotations_path, "r") as json_annotations:
+            coco_annotations = json.load(json_annotations)
+        
         self.height = 1024
         self.width = 1024
-        self.images_path = images_path
+        self.images_path = coco_dataset_path
         self.images = coco_annotations["images"]
         self.classes = coco_annotations["categories"]
         self.bounding_boxes = {}
 
         for bbox in coco_annotations["annotations"]:
             image_name = bbox["image_id"]
-            image_path = "{}/{}.jpg".format(images_path, image_name)
+            image_path = "{}/{}.jpg".format(self.images_path, image_name)
             class_id = bbox["category_id"]
             class_name = list(filter(lambda c: c["id"] == class_id, self.classes))[0]["name"]
             x, y, w, h = bbox["bbox"]
@@ -77,14 +81,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--dataset_path", dest="dataset_path", help="Path to the COCO dataset", required=True)
     args = parser.parse_args()
-
-    images_path = args.dataset_path
-    annotations_path = "{}/annotations.json".format(args.dataset_path)
-    with open(annotations_path, "r") as json_annotations:
-        coco_annotations = json.load(json_annotations)
     
     print("[ Dataset Loading ... ]")
-    Dataset = MIASDataset(coco_annotations, images_path)
+    Dataset = MIASDataset(args.dataset_path)
     print("[ OK ! ]")
 
     print("[ Dataset Length ... ]")
