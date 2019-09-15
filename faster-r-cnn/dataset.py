@@ -12,7 +12,7 @@ import json
 
 class MIASDataset(object):
     def __init__(self, coco_dataset_path):
-        annotations_path = "{}/annotations.json".format(args.dataset_path)
+        annotations_path = "{}/annotations.json".format(coco_dataset_path)
         with open(annotations_path, "r") as json_annotations:
             coco_annotations = json.load(json_annotations)
         
