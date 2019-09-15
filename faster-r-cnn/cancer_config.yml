@@ -1,4 +1,3 @@
-%%writefile cancer_config_2c.yaml
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
   WEIGHT: "base_model.pth"

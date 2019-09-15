@@ -208,7 +208,7 @@ def main():
     # save overloaded model config in the output directory
     save_config(cfg, output_config_path)
 
-    model = train(cfg, local_rank=1, distributed=False, dataset=MIASDataset(args.coco_dataset_path))
+    model = train(cfg, local_rank=1, distributed=False, dataset=MIASDataset(args.dataset_path))
 
 
 if __name__ == "__main__":
