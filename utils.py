@@ -40,15 +40,17 @@ def data_augment(image, X, Y, R, factor):
             y1 = 1024 - (Y - R)
             x2 = X + R
             y2 = 1024 - (Y + R)
+            bboxes.append([x1, y1, x2, y2])
+        else:
+            bboxes.append([])
         images.append(image)
-        bboxes.append([x1, y1, x2, y2])
     else:
         seq = get_augmenter()
         bbs_before_aug = []
         if X == X and Y == Y and R == R:
             bbs_before_aug.append(BoundingBox(x1=X, y1=Y, x2=X+R, y2=Y+R))
         bbs_before_aug = BoundingBoxesOnImage(bbs_before_aug, shape=image.shape)
-        for k in range(factor):
+        for _ in range(factor):
             image_aug, bbs_after_aug = seq(image=image, bounding_boxes=bbs_before_aug)
             images.append(image_aug)
             if len(bbs_after_aug.bounding_boxes):

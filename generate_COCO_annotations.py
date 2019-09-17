@@ -28,38 +28,40 @@ def create_required_folders(path):
     if os.path.exists(path):
         shutil.rmtree(path)
     
-    os.makedirs(path)
-    os.makedirs(path + "/train")
-    os.makedirs(path + "/val")
+    os.makedirs(path + "/images/train")
+    os.makedirs(path + "/images/val")
     os.makedirs(path + "/annotations")
 
 def generate_annotations(pd_data, images_folder, output_path, box_class=False, augment_factor=1, train_val_split=0.9):
     # Init. train annotations
     train_annotations = {}
-    train_annotations["categories"] = []
     train_annotations["images"] = []
     train_annotations["annotations"] = []
+
+    # Init. val annotations
+    val_annotations = {}
+    val_annotations["images"] = []
+    val_annotations["annotations"] = []
 
     # Categories
     if box_class:
         classes = ["box"]
-        train_annotations["categories"] = [{
+        class_annotations = [{
             "id": 0,
             "name": "box",
         }]
     else:
         classes = list(pd_data["CLASS"].value_counts().to_dict().keys())
-        train_annotations["categories"] = [{
+        class_annotations = [{
             "id": i,
             "name": c,
         } for i, c in enumerate(classes)]
-
-    # Init. val annotations
-    val_annotations = train_annotations.copy()
+    train_annotations["categories"] = class_annotations
+    val_annotations["categories"] = class_annotations
 
     # Images & Bboxes
     image_paths = glob(images_folder + "/*.pgm")
-    for img_path in tqdm(image_paths):
+    for n, img_path in enumerate(tqdm(image_paths)):
         # Getting data
         img = cv2.imread(img_path)
         img_name = img_path.split("/")[-1][:-4]
@@ -77,44 +79,46 @@ def generate_annotations(pd_data, images_folder, output_path, box_class=False, a
         images, bboxes = data_augment(img, X, Y, R, augment_factor)
         
         for i, bbox in enumerate(bboxes):
+            # Image data
+            img_id = int(float("{}{}".format(n, i)))
+            final_img_name = "{}{}.jpg".format(img_name, i)
             is_train = np.random.random() < train_val_split
-            train_val_folder = "train" if is_train else "val"
 
-            # Img writing
-            img_path_jpg = "{}/{}/{}{}.jpg".format(output_path, train_val_folder, img_name, i)
-            cv2.imwrite(img_path_jpg, images[i])
-            
             # Img Annotations
             image_annotation = {
-                "id": img_path.split("/")[-1][:-4],
+                "id": img_id,
                 "width": 1024,
                 "height": 1024,
-                "file_name": img_path.split("/")[-1],
+                "file_name": final_img_name,
             }
+            if is_train:
+                img_path_jpg = "{}/images/train/{}".format(output_path, final_img_name)
+                train_annotations["images"].append(image_annotation)
+            else:
+                img_path_jpg = "{}/images/val/{}".format(output_path, final_img_name)
+                val_annotations["images"].append(image_annotation)
+            cv2.imwrite(img_path_jpg, images[i])
             
             # Bbox Annotations
             if len(bbox):
                 x1, y1, x2, y2 = map(int, bbox)
                 bbox_annotation = {
-                    "id": "{}{}{}".format(img_name, i, CLASS_ID),
+                    "id": "{}{}{}".format(img_id, CLASS_ID, i),
                     "category_id": CLASS_ID,
-                    "image_id": img_name,
+                    "image_id": img_id,
                     "bbox": [x1, y1, x2 - x1, y2 - y1],
+                    "iscrowd": False,
                 }
-            
-            # Append
-            if is_train:
-                train_annotations["images"].append(image_annotation)
-                train_annotations["annotations"].append(bbox_annotation)
-            else:
-                val_annotations["images"].append(image_annotation)
-                val_annotations["annotations"].append(bbox_annotation)
+                if is_train:
+                    train_annotations["annotations"].append(bbox_annotation)
+                else:
+                    val_annotations["annotations"].append(bbox_annotation)
     
     # Annotations writing
     with open("{}/annotations/instances_train.json".format(output_path), "w") as f:
         json.dump(train_annotations, f, indent=4)
     with open("{}/annotations/instances_val.json".format(output_path), "w") as f:
-        json.dump(train_annotations, f, indent=4)
+        json.dump(val_annotations, f, indent=4)
 
 if __name__ == "__main__":
     args = parse_args()
