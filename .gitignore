@@ -5,4 +5,6 @@ retinanet/snapshots
 faster-r-cnn/base_model.pth
 faster-r-cnn/config.yml
 faster-r-cnn/log.txt
+retinanet/val_bbox_results.json
+retinanet/val_processed_image_ids.json
 
