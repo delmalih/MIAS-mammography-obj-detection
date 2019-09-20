@@ -473,7 +473,7 @@ def main(args=None):
         )
 
     # print model summary
-    print(model.summary())
+    model.summary()
 
     # this lets the generator compute backbone layer shapes using the actual backbone model
     if 'vgg' in args.backbone or 'densenet' in args.backbone:
