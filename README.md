@@ -5,5 +5,9 @@
 ```
 conda create --name mias-mammography
 conda activate mias-mammography
-bash ./install.sh
+TODO...
 ```
+
+## How it works
+
+TODO
