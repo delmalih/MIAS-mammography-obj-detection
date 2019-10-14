@@ -109,6 +109,7 @@ def generate_annotations(pd_data, images_folder, output_path, box_class=False, a
                     "bbox": [x1, y1, x2 - x1, y2 - y1],
                     "iscrowd": False,
                     "area": (x2 - x1) * (y2 - y1),
+                    "segmentation": [x1, y1, x2, y1, x2, y2, x1, y2, x1, y1],
                 }
                 if is_train:
                     train_annotations["annotations"].append(bbox_annotation)

@@ -1,4 +1,5 @@
 .vscode
+*.pyc
 __pycache__
 retinanet/logs
 retinanet/snapshots
@@ -7,4 +8,3 @@ faster-r-cnn/config.yml
 faster-r-cnn/log.txt
 retinanet/val_bbox_results.json
 retinanet/val_processed_image_ids.json
-
