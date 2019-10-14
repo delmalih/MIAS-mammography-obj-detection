@@ -102,6 +102,7 @@ def generate_annotations(pd_data, images_folder, output_path, box_class=False, a
             # Bbox Annotations
             if len(bbox):
                 x1, y1, x2, y2 = map(int, bbox)
+                assert x1 >= 0 and y1 >= 0 and x2 < 1024 and y2 < 1024
                 bbox_annotation = {
                     "id": "{}{}{}".format(img_id, CLASS_ID, i),
                     "category_id": CLASS_ID,

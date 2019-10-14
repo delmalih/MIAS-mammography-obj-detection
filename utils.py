@@ -15,14 +15,13 @@ def read_annotations_file(path):
 def get_augmenter():
     seq = iaa.Sequential([
         iaa.SomeOf((1, 4), [
-            iaa.CropAndPad(percent=(-0.25, 0.25)),
             iaa.Fliplr(0.5),
             iaa.GaussianBlur(sigma=(0.0, 3.0)),
+            iaa.MotionBlur(angle=(0, 360)),
             iaa.Add((-20, 20)),
             iaa.AddElementwise((-10, 10)),
             iaa.AdditiveGaussianNoise(scale=0.01*255),
             iaa.Multiply((0.8, 1.2)),
-            iaa.Affine(translate_px={"x": (-20, 20), "y": (-20, 20)}),
         ])
     ])
     return seq
@@ -60,7 +59,7 @@ def data_augment(image, X, Y, R, factor):
                 y1 = bbs_after_aug.bounding_boxes[0].y1
                 x2 = bbs_after_aug.bounding_boxes[0].x2
                 y2 = bbs_after_aug.bounding_boxes[0].y2
-                bboxes.append([x1, y1, x2 - x1, y2 - y1])
+                bboxes.append([x1, y1, x2, y2])
             else:
                 bboxes.append([])
     return images, bboxes
