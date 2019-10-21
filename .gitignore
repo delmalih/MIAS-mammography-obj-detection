@@ -8,3 +8,6 @@ faster-r-cnn/config.yml
 faster-r-cnn/log.txt
 retinanet/val_bbox_results.json
 retinanet/val_processed_image_ids.json
+fcos/outputs/
+fcos/inference/
+fcos/**/log.txt
