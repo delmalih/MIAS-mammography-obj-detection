@@ -7,17 +7,29 @@
 
 ## Installation instructions
 
+### 1. Faster R-CNN instructions
+
 ```
-conda create --name mias-mammography
-conda activate mias-mammography
+conda create --name faster-r-cnn
+conda activate faster-r-cnn
 TODO...
 ```
 
-### 1. Faster R-CNN instructions
-
 ### 2. RetinaNet instructions
 
+```
+conda create --name retinanet
+conda activate retinanet
+TODO...
+```
+
 ### 3. FCOS instructions
+
+```
+conda create --name fcos
+conda activate fcos
+TODO...
+```
 
 ## How it works
 
