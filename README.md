@@ -1,5 +1,10 @@
 # mias-mammography-faster-rcnn
 
+## Requirements
+
+- GCC >= 4.9
+- CUDA >= 9.0
+
 ## Installation instructions
 
 ```
@@ -7,6 +12,12 @@ conda create --name mias-mammography
 conda activate mias-mammography
 TODO...
 ```
+
+### 1. Faster R-CNN instructions
+
+### 2. RetinaNet instructions
+
+### 3. FCOS instructions
 
 ## How it works
 
