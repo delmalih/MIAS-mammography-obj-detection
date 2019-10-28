@@ -4,6 +4,7 @@
 
 - GCC >= 4.9
 - CUDA >= 9.0
+- Anaconda 3
 
 ## Installation instructions
 
