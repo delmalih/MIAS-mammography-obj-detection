@@ -9,11 +9,17 @@
 
 ### 1. Faster R-CNN instructions
 
+First, create an environment :
+
 ```
 conda create --name faster-r-cnn
 conda activate faster-r-cnn
-TODO...
+conda install ipython pip
+pip install -r requirements.txt
+cd faster-r-cnn
 ```
+
+Then, follow [these instructions](https://github.com/facebookresearch/maskrcnn-benchmark/blob/master/INSTALL.md)
 
 ### 2. RetinaNet instructions
 
@@ -22,7 +28,11 @@ First, create an environment :
 ```
 conda create --name retinanet
 conda activate retinanet
+conda install ipython pip
+pip install -r requirements.txt
+cd retinanet
 ```
+
 Then, follow [these instructions](https://github.com/fizyr/keras-retinanet#installation)
 
 ### 3. FCOS instructions
@@ -32,7 +42,9 @@ First, create an environment :
 ```
 conda create --name fcos
 conda activate fcos
-TODO...
+conda install ipython pip
+pip install -r requirements.txt
+cd fcos
 ```
 
 Then, follow [these instructions](https://github.com/tianzhi0549/FCOS#installation)
