@@ -11,8 +11,8 @@ import json
 # Dataset
 
 class MIASDataset(object):
-    def __init__(self, coco_dataset_path):
-        annotations_path = "{}/annotations.json".format(coco_dataset_path)
+    def __init__(self, coco_dataset_path, train_or_val="train"):
+        annotations_path = "{}/annotations/instances_{}.json".format(coco_dataset_path, train_or_val)
         with open(annotations_path, "r") as json_annotations:
             coco_annotations = json.load(json_annotations)
         
@@ -25,7 +25,7 @@ class MIASDataset(object):
 
         for bbox in coco_annotations["annotations"]:
             image_name = bbox["image_id"]
-            image_path = "{}/{}.jpg".format(self.images_path, image_name)
+            image_path = "{}/images/{}/{}.jpg".format(self.images_path, train_or_val, image_name)
             class_id = bbox["category_id"]
             class_name = list(filter(lambda c: c["id"] == class_id, self.classes))[0]["name"]
             x, y, w, h = bbox["bbox"]
