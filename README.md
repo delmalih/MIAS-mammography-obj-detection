@@ -1,4 +1,4 @@
-# mias-mammography-faster-rcnn
+# Few-shots breast cancer tumors detection on mammograms
 
 ## Requirements
 
