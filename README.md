@@ -10,7 +10,7 @@
 
 ### 1. Faster R-CNN instructions
 
-First, create an environment :
+- First, create an environment :
 
 ```
 conda create --name faster-r-cnn
@@ -20,11 +20,11 @@ pip install -r requirements.txt
 cd faster-r-cnn
 ```
 
-Then, follow [these instructions](https://github.com/facebookresearch/maskrcnn-benchmark/blob/master/INSTALL.md)
+- Then, follow [these instructions](https://github.com/facebookresearch/maskrcnn-benchmark/blob/master/INSTALL.md)
 
 ### 2. RetinaNet instructions
 
-First, create an environment :
+- First, create an environment :
 
 ```
 conda create --name retinanet
@@ -34,11 +34,12 @@ pip install -r requirements.txt
 cd retinanet
 ```
 
-Then, follow [these instructions](https://github.com/fizyr/keras-retinanet#installation)
+- Then, follow [these instructions](https://github.com/fizyr/keras-retinanet#installation)
+- Finally, replace the `keras_retinanet/preprocessing/coco.py` file by [this file](https://github.com/delmalih/mias-mammography-obj-detection/blob/master/retinanet/coco.py)
 
 ### 3. FCOS instructions
 
-First, create an environment :
+- First, create an environment :
 
 ```
 conda create --name fcos
@@ -48,7 +49,7 @@ pip install -r requirements.txt
 cd fcos
 ```
 
-Then, follow [these instructions](https://github.com/tianzhi0549/FCOS#installation)
+- Then, follow [these instructions](https://github.com/tianzhi0549/FCOS#installation)
 
 ## How it works
 
