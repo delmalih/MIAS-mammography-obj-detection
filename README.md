@@ -109,7 +109,18 @@ python train_net.py --config-file <Path to the config file> \
 TODO
 
 #### 3.2 RetinaNet
-TODO
+
+- Put the images you want to run an inference on, in `<Name of COCO dataset>/<Name of folder>`
+- Run this command :
+
+```
+cd retinanet
+conda deactivate && conda activate retinanet
+python inference.py --snapshot <Path of the model snapshot> \
+                    --set_name <Name of the inference folder in the COCO dataset> \
+                    --batch-size <Batch size> \
+                    coco <Path to the COCO dataset>
+```
 
 #### 3.3 FCOS
 
