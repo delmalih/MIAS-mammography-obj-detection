@@ -6,6 +6,7 @@ import argparse
 import os
 import sys
 import warnings
+import json
 
 import keras
 import keras.preprocessing.image
@@ -82,33 +83,11 @@ def parse_args(args):
     coco_parser = subparsers.add_parser('coco')
     coco_parser.add_argument('coco_path', help='Path to dataset directory (ie. /tmp/COCO).')
 
-    pascal_parser = subparsers.add_parser('pascal')
-    pascal_parser.add_argument('pascal_path', help='Path to dataset directory (ie. /tmp/VOCdevkit).')
-
-    kitti_parser = subparsers.add_parser('kitti')
-    kitti_parser.add_argument('kitti_path', help='Path to dataset directory (ie. /tmp/kitti).')
-
-    def csv_list(string):
-        return string.split(',')
-
-    oid_parser = subparsers.add_parser('oid')
-    oid_parser.add_argument('main_dir', help='Path to dataset directory.')
-    oid_parser.add_argument('--version',  help='The current dataset version is v4.', default='v4')
-    oid_parser.add_argument('--labels-filter',  help='A list of labels to filter.', type=csv_list, default=None)
-    oid_parser.add_argument('--annotation-cache-dir', help='Path to store annotation cache.', default='.')
-    oid_parser.add_argument('--parent-label', help='Use the hierarchy children of this label.', default=None)
-
-    csv_parser = subparsers.add_parser('csv')
-    csv_parser.add_argument('annotations', help='Path to CSV file containing annotations for training.')
-    csv_parser.add_argument('classes', help='Path to a CSV file containing class label mapping.')
-    csv_parser.add_argument('--val-annotations', help='Path to CSV file containing annotations for validation (optional).')
-
     group = parser.add_mutually_exclusive_group()
     group.add_argument('--snapshot',          help='Resume training from a snapshot.')
     
     parser.add_argument('--backbone',         help='Backbone model used by retinanet.', default='resnet50', type=str)
     parser.add_argument('--set_name',         help='Name of the set containing the images to infere', type=str)
-    parser.add_argument('--batch-size',       help='Size of the batches.', default=1, type=int)
     parser.add_argument('--gpu',              help='Id of the GPU to use (as reported by nvidia-smi).')
     parser.add_argument('--multi-gpu',        help='Number of GPUs to use for parallel processing.', type=int, default=0)
     parser.add_argument('--multi-gpu-force',  help='Extra flag needed to enable (experimental) multi-gpu support.', action='store_true')
@@ -127,7 +106,7 @@ def create_generators(args):
         preprocess_image : Function that preprocesses an image for the network.
     """
     common_args = {
-        'batch_size'       : args.batch_size,
+        'batch_size'       : 1,
         'config'           : args.config,
         'image_min_side'   : args.image_min_side,
         'image_max_side'   : args.image_max_side,
@@ -141,38 +120,47 @@ def create_generators(args):
             args.set_name,
             **common_args
         )
-    elif args.dataset_type == 'pascal':
-        generator = PascalVocGenerator(
-            args.pascal_path,
-            args.set_name,
-            **common_args
-        )
-    elif args.dataset_type == 'csv':
-        generator = CSVGenerator(
-            args.annotations,
-            args.classes,
-            **common_args
-        )
-    elif args.dataset_type == 'oid':
-        generator = OpenImagesGenerator(
-            args.main_dir,
-            subset=args.set_name,
-            version=args.version,
-            labels_filter=args.labels_filter,
-            annotation_cache_dir=args.annotation_cache_dir,
-            parent_label=args.parent_label,
-            **common_args
-        )
-    elif args.dataset_type == 'kitti':
-        generator = KittiGenerator(
-            args.kitti_path,
-            subset=args.set_name,
-            **common_args
-        )
     else:
         raise ValueError('Invalid data type received: {}'.format(args.dataset_type))
 
     return generator
+
+
+def create_coco_annotations(boxes, scores, labels, image_ids):
+    annotations = []
+    _, nb_boxes_per_img = scores.shape
+    
+    boxes = boxes.reshape(-1, boxes.shape[-1])
+    scores = scores.reshape(-1)
+    labels = labels.reshape(-1)
+    
+    img_id = 0; counter = 0
+    for box, score, label in zip(boxes, scores, labels):
+        counter += 1
+        if counter == nb_boxes_per_img:
+            counter = 0
+            img_id += 1
+
+        if score < 0.5:
+            continue
+        
+        xmin, ymin, xmax, ymax = box
+        annotations.append({
+            "score": 1.*score,
+            "image_id": int(image_ids[img_id]),
+            "category_id": int(label),
+            "bbox": [
+                1.*xmin,
+                1.*ymin,
+                1.*(xmax - xmin),
+                1.*(ymax - ymin),
+            ]
+        })
+        
+    with open('output_annotations.json', 'w') as outfile:
+        json.dump(annotations, outfile, indent=4)
+    
+    print("Done.")
 
 
 def main(args=None):
@@ -212,12 +200,13 @@ def main(args=None):
         generator.compute_shapes = make_shapes_callback(model)
 
     # inference
-    boxes, classification, _ = prediction_model.predict_generator(
+    boxes, scores, labels = prediction_model.predict_generator(
         generator=generator,
         verbose=1,
     )
 
-    print(boxes)
+    # generate COCO annotations
+    create_coco_annotations(boxes, scores, labels, generator.image_ids)
 
 
 if __name__ == '__main__':
