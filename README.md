@@ -118,7 +118,6 @@ cd retinanet
 conda deactivate && conda activate retinanet
 python inference.py --snapshot <Path of the model snapshot> \
                     --set_name <Name of the inference folder in the COCO dataset> \
-                    --batch-size <Batch size> \
                     coco <Path to the COCO dataset>
 ```
 
