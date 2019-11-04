@@ -68,7 +68,17 @@ python generate_{COCO|VOC}_annotations --images (or -i) <Path to the images fold
 ### 2. How to run a training
 
 #### 2.1 Faster R-CNN
-TODO
+
+To run a training with the Faster-RCNN:
+
+- Follow [these instructions](https://github.com/facebookresearch/maskrcnn-benchmark#adding-your-own-dataset)
+- Run this command :
+
+```
+cd faster-r-cnn
+conda deactivate && conda activate faster-r-cnn
+python train.py --config-file <Path to the config file>
+```
 
 #### 2.2 RetinaNet
 
@@ -94,7 +104,7 @@ tensorboard --logdir <Path to the tensorboard directory>
 
 To run a training with the FCOS Object Detector :
 
-- Follow [this instruction](https://github.com/tianzhi0549/FCOS/issues/54#issuecomment-497558687)
+- Follow [these instructions](https://github.com/tianzhi0549/FCOS/issues/54#issuecomment-497558687)
 - Run this command :
 
 ```
