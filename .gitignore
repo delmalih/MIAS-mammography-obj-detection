@@ -12,6 +12,7 @@ faster-r-cnn/last_checkpoint
 faster-r-cnn/inference
 retinanet/val_bbox_results.json
 retinanet/val_processed_image_ids.json
+retinanet/output_annotations.json
 fcos/outputs/
 fcos/inference/
 fcos/**/log.txt
