@@ -1,6 +1,6 @@
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
-  WEIGHT: "base_model.pth"
+  # WEIGHT: "base_model.pth"
   BACKBONE:
     CONV_BODY: "R-50-FPN"
   RESNETS:
@@ -20,15 +20,26 @@ MODEL:
     POOLER_SAMPLING_RATIO: 2
     FEATURE_EXTRACTOR: "FPN2MLPFeatureExtractor"
     PREDICTOR: "FPNPredictor"
-    NUM_CLASSES: 2 # background + num_classes : IMPORTANT dont forget to add this
-#   ROI_MASK_HEAD:
-#     POOLER_SCALES: (0.25, 0.125, 0.0625, 0.03125)
-#     FEATURE_EXTRACTOR: "MaskRCNNFPNFeatureExtractor"
-#     PREDICTOR: "MaskRCNNC4Predictor"
-#     POOLER_RESOLUTION: 14
-#     POOLER_SAMPLING_RATIO: 2
-#     RESOLUTION: 28
-#     SHARE_BOX_FEATURE_EXTRACTOR: False
+    NUM_CLASSES: 8 # background + num_classes : IMPORTANT dont forget to add this
+  # ROI_MASK_HEAD:
+  #   POOLER_SCALES: (0.25, 0.125, 0.0625, 0.03125)
+  #   FEATURE_EXTRACTOR: "MaskRCNNFPNFeatureExtractor"
+  #   PREDICTOR: "MaskRCNNC4Predictor"
+  #   POOLER_RESOLUTION: 14
+  #   POOLER_SAMPLING_RATIO: 2
+  #   RESOLUTION: 28
+  #   SHARE_BOX_FEATURE_EXTRACTOR: False
   MASK_ON: False
 DATALOADER:
   SIZE_DIVISIBILITY: 32
+DATASETS:
+  TRAIN: ("mias_train_cocostyle",)
+  TEST: ("mias_val_cocostyle",)
+SOLVER:
+  BASE_LR: 0.0001
+  WEIGHT_DECAY: 0.0001
+  STEPS: (120000, 160000)
+  MAX_ITER: 180000
+  IMS_PER_BATCH: 8
+  WARMUP_METHOD: "constant"
+  CHECKPOINT_PERIOD: 100

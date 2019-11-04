@@ -6,6 +6,10 @@ retinanet/snapshots
 faster-r-cnn/base_model.pth
 faster-r-cnn/config.yml
 faster-r-cnn/log.txt
+faster-r-cnn/labels.json
+faster-r-cnn/*.pth
+faster-r-cnn/last_checkpoint
+faster-r-cnn/inference
 retinanet/val_bbox_results.json
 retinanet/val_processed_image_ids.json
 fcos/outputs/
