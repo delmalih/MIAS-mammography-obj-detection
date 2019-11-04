@@ -110,14 +110,22 @@ To run a training with the FCOS Object Detector :
 ```
 cd fcos
 conda deactivate && conda activate fcos
-python train_net.py --config-file <Path to the config file> \
-                    OUTPUT_DIR <Path to the output dir for the logs>
+python train.py --config-file <Path to the config file> \
+                OUTPUT_DIR <Path to the output dir for the logs>
 ```
 
 ### 3. How to run an inference
 
 #### 3.1 Faster R-CNN
-TODO
+
+```
+cd faster-r-cnn
+conda deactivate && conda activate faster-r-cnn
+python inference.py --config-file <Path to the config file> \
+                    MODEL.WEIGHT <Path to weights of the model to load> \
+                    TEST.IMS_PER_BATCH <Nb of images per batch>
+```
+
 
 #### 3.2 RetinaNet
 
@@ -137,7 +145,7 @@ python inference.py --snapshot <Path of the model snapshot> \
 ```
 cd fcos
 conda deactivate && conda activate fcos
-python test_net.py --config-file <Path to the config file> \
-                   MODEL.WEIGHT <Path to weights of the model to load> \
-                   TEST.IMS_PER_BATCH <Nb of images per batch>
+python inference.py --config-file <Path to the config file> \
+                    MODEL.WEIGHT <Path to weights of the model to load> \
+                    TEST.IMS_PER_BATCH <Nb of images per batch>
 ```
