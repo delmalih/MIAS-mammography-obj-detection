@@ -2,7 +2,7 @@ MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
   WEIGHT: "base_model.pth"
   BACKBONE:
-    CONV_BODY: "X-101-32x8d-FPN"
+    CONV_BODY: "R-101-FPN"
   RESNETS:
     BACKBONE_OUT_CHANNELS: 256
   RPN:
