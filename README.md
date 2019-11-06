@@ -28,7 +28,8 @@ conda install ipython pip
 pip install -r requirements.txt
 ```
 
-- Then, run those commands :
+- Then, run these commands :
+
 ```
 # install pytorch
 conda install -c pytorch pytorch-nightly torchvision cudatoolkit=9.0
@@ -76,10 +77,20 @@ conda create --name retinanet
 conda activate retinanet
 conda install ipython pip
 pip install -r requirements.txt
-cd retinanet
 ```
 
-- Then, follow [these instructions](https://github.com/fizyr/keras-retinanet#installation)
+- Then, run these commands :
+
+```
+# clone keras-retinanet repo
+git clone https://github.com/fizyr/keras-retinanet
+pip install . --user
+python setup.py build_ext --inplace
+
+# install pycoco tools
+pip install --user git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI
+```
+
 - Finally, replace the `keras_retinanet/preprocessing/coco.py` file by [this file](https://github.com/delmalih/mias-mammography-obj-detection/blob/master/retinanet/coco.py)
 
 ### 3. FCOS instructions
