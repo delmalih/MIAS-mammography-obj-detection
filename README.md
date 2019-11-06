@@ -28,7 +28,6 @@ conda install ipython pip
 pip install -r requirements.txt
 ```
 
-- Then, follow [these instructions](https://github.com/facebookresearch/maskrcnn-benchmark/blob/master/INSTALL.md)
 - Then, run those commands :
 ```
 # install pytorch
