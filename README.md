@@ -1,10 +1,19 @@
-# Few-shots breast cancer tumors detection on mammograms
+# Breast cancer tumor detection on mammograms
 
 ## Requirements
 
 - GCC >= 4.9
 - CUDA >= 9.0
 - Anaconda 3
+
+## References
+
+- Faster-RCNN paper: [arxiv.org/pdf/1506.01497.pdf](https://arxiv.org/pdf/1506.01497.pdf)
+- Faster-RCNN implem. repo.: [github.com/facebookresearch/maskrcnn-benchmark](https://github.com/facebookresearch/maskrcnn-benchmark)
+- RetinaNet paper: [arxiv.org/pdf/1708.02002.pdf](https://arxiv.org/pdf/1708.02002.pdf)
+- RetinaNet implem. repo.: [github.com/fizyr/keras-retinanet](https://github.com/fizyr/keras-retinanet)
+- FCOS paper: [arxiv.org/pdf/1904.01355.pdf](https://arxiv.org/pdf/1904.01355.pdf)
+- FCOS implem. repo.: [github.com/tianzhi0549/FCOS](https://github.com/tianzhi0549/FCOS)
 
 ## Installation instructions
 
