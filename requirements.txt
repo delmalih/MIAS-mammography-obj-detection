@@ -8,3 +8,4 @@ ninja
 yacs
 cython
 tensorflow-gpu==1.12
+tensorboard==1.12.1
