@@ -3,7 +3,7 @@
 ## Requirements
 
 - GCC >= 4.9
-- CUDA >= 9.0
+- CUDA 9.0 & cuDNN 7.0
 - Anaconda 3
 
 ## References
