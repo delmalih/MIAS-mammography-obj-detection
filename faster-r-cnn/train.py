@@ -72,16 +72,26 @@ def train(cfg, local_rank, distributed):
         start_iter=arguments["iteration"],
     )
 
+    test_period = cfg.SOLVER.TEST_PERIOD
+    if test_period > 0:
+        data_loader_val = make_data_loader(cfg, is_train=False, is_distributed=distributed, is_for_period=True)
+    else:
+        data_loader_val = None
+
     checkpoint_period = cfg.SOLVER.CHECKPOINT_PERIOD
+    test_period = cfg.SOLVER.TEST_PERIOD
 
     do_train(
+        cfg,
         model,
         data_loader,
+        data_loader_val,
         optimizer,
         scheduler,
         checkpointer,
         device,
         checkpoint_period,
+        test_period,
         arguments,
     )
 
@@ -112,6 +122,7 @@ def run_test(cfg, model, distributed):
             dataset_name=dataset_name,
             iou_types=iou_types,
             box_only=False if cfg.MODEL.RETINANET_ON else cfg.MODEL.RPN_ONLY,
+            bbox_aug=cfg.TEST.BBOX_AUG.ENABLED,
             device=cfg.MODEL.DEVICE,
             expected_results=cfg.TEST.EXPECTED_RESULTS,
             expected_results_sigma_tol=cfg.TEST.EXPECTED_RESULTS_SIGMA_TOL,
