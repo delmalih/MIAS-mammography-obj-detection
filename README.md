@@ -40,7 +40,7 @@ cd ..
 
 ```
 # install pytorch
-conda install -c pytorch pytorch-nightly torchvision cudatoolkit=9.0
+conda install -c pytorch pytorch-nightly torchvision cudatoolkit=10.0
 
 export INSTALL_DIR=$PWD
 
