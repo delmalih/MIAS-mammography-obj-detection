@@ -3,8 +3,8 @@
 ## Requirements
 
 - GCC >= 4.9
-- CUDA 9.0 & cuDNN 7.0
-- Anaconda 3
+- CUDA 9.0 & cuDNN 7.0 ([install. instructions](https://gist.github.com/zhanwenchen/e520767a409325d9961072f666815bb8#install-nvidia-graphics-driver-via-apt-get))
+- Anaconda 3 ([install. instructions](https://problemsolvingwithpython.com/01-Orientation/01.05-Installing-Anaconda-on-Linux/))
 
 ## References
 
@@ -109,7 +109,18 @@ cd fcos
 
 ## How it works
 
-### 1. Generate COCO or VOC augmented data
+### 1. Download the MIAS Database
+
+Run these commands to download to MIAS database :
+
+```
+mkdir mias-db && cd mias-db
+wget http://peipa.essex.ac.uk/pix/mias/all-mias.tar.gz
+tar -zxvf all-mias.tar.gz
+rm all-mias.tar.gz && cd ..
+```
+
+### 2. Generate COCO or VOC augmented data
 
 It is possible to generate COCO or VOC annotations from raw data (`all-mias` folder + `Info.txt` annotations file) through 2 scripts: `generate_{COCO|VOC}_annotations.py` :
 
@@ -121,9 +132,19 @@ python generate_{COCO|VOC}_annotations --images (or -i) <Path to the images fold
                                        --train_val_split <Percetange of the train folder (default 0.9)>
 ```
 
-### 2. How to run a training
+For example, to generate 10x augmented COCO annotations, run this command :
 
-#### 2.1 Faster R-CNN
+```
+python generate_COCO_annotations --images mias-db/ \
+                                 --annotations mias-db/Info.txt \
+                                 --output (or -o) mias-db/COCO \
+                                 --aug_fact 20 \
+                                 --train_val_split 0.9
+```
+
+### 3. How to run a training
+
+#### 3.1 Faster R-CNN
 
 To run a training with the Faster-RCNN:
 
@@ -136,7 +157,7 @@ conda deactivate && conda activate faster-r-cnn
 python train.py --config-file <Path to the config file>
 ```
 
-#### 2.2 RetinaNet
+#### 3.2 RetinaNet
 
 To run a training with the retinanet :
 
@@ -156,7 +177,7 @@ And if you want to see the tensorboard, run on another window :
 tensorboard --logdir <Path to the tensorboard directory>
 ```
 
-#### 2.3 FCOS
+#### 3.3 FCOS
 
 To run a training with the FCOS Object Detector :
 
@@ -170,9 +191,9 @@ python train.py --config-file <Path to the config file> \
                 OUTPUT_DIR <Path to the output dir for the logs>
 ```
 
-### 3. How to run an inference
+### 4. How to run an inference
 
-#### 3.1 Faster R-CNN
+#### 4.1 Faster R-CNN
 
 ```
 cd faster-r-cnn
@@ -183,7 +204,7 @@ python inference.py --config-file <Path to the config file> \
 ```
 
 
-#### 3.2 RetinaNet
+#### 4.2 RetinaNet
 
 - Put the images you want to run an inference on, in `<Name of COCO dataset>/<Name of folder>`
 - Run this command :
@@ -196,7 +217,7 @@ python inference.py --snapshot <Path of the model snapshot> \
                     coco <Path to the COCO dataset>
 ```
 
-#### 3.3 FCOS
+#### 4.3 FCOS
 
 ```
 cd fcos
