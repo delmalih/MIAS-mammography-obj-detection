@@ -17,6 +17,12 @@
 
 ## Installation instructions
 
+Start by cloning this repo:
+
+```
+git clone https://github.com/delmalih/mias-mammography-obj-detection
+```
+
 ### 1. Faster R-CNN instructions
 
 - First, create an environment :
@@ -25,7 +31,9 @@
 conda create --name faster-r-cnn
 conda activate faster-r-cnn
 conda install ipython pip
+cd mias-mammography-obj-detection
 pip install -r requirements.txt
+cd ..
 ```
 
 - Then, run these commands :
