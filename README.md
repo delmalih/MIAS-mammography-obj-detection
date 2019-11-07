@@ -20,7 +20,7 @@
 Start by cloning this repo:
 
 ```
-git clone https://github.com/delmalih/mias-mammography-obj-detection
+git clone https://github.com/delmalih/MIAS-mammography-obj-detection
 ```
 
 ### 1. Faster R-CNN instructions
