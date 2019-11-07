@@ -265,7 +265,7 @@ python inference.py --config-file <Path to the config file> \
 
 |Metric|Faster-RCNN|RetinaNet|FCOS|
 |------|-----------|---------|----|
-|mAP   |
-|Precision|
-|Recall|
-|F1-score|
+|mAP   |98,70%     |94,97%   |98,20%|
+|Precision|94,12%  |100,00%  |94,44%|
+|Recall|98,65%     |94,72%   |98,20%|
+|F1-score|96,22%   |96,93%   |96,25%|
