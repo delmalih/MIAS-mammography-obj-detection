@@ -154,13 +154,27 @@ python generate_COCO_annotations.py --images ../mias-db/ \
 
 To run a training with the Faster-RCNN:
 
-- Follow [these instructions](https://github.com/facebookresearch/maskrcnn-benchmark#adding-your-own-dataset)
-- Run this command :
-
+- Go to the faster-r-cnn directory: `cd faster-r-cnn`
+- Change conda env: `conda deactivate && conda activate faster-r-cnn`
+- Download the [Resnet_101_FPN model](https://download.pytorch.org/models/maskrcnn/e2e_faster_rcnn_R_101_FPN_1x.pth)
+- Trim the model: `python trim_detectron_model.py --pretrained_path e2e_faster_rcnn_R_101_FPN_1x.pth --save_path base_model.pth`
+- Edit the `maskrcnn-benchmark/maskrcnn_benchmark/config/paths_catalog.py` file and put these lines in the `DATASETS` dictionary :
 ```
-cd faster-r-cnn
-conda deactivate && conda activate faster-r-cnn
-python train.py --config-file <Path to the config file>
+  DATASETS = {
+    ...,
+    "mias_train_cocostyle": {
+        "img_dir": "<PATH_TO_'mias-db'_folder>/<COCO_FOLDER>/images/train",
+        "ann_file": "<PATH_TO_'mias-db'_folder>/<COCO_FOLDER>/annotations/instances_train.json"
+    },
+    "mias_val_cocostyle": {
+        "img_dir": "<PATH_TO_'mias-db'_folder>/<COCO_FOLDER>/images/val",
+        "ann_file": "<PATH_TO_'mias-db'_folder>/<COCO_FOLDER>/annotations/instances_val.json"
+    },
+  }
+```
+- Run this command :
+```
+python train.py --config-file mias_config.yml
 ```
 
 #### 3.2 RetinaNet
