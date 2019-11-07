@@ -91,7 +91,7 @@ cd ..
 # clone keras-retinanet repo
 git clone https://github.com/fizyr/keras-retinanet
 cd keras-retinanet
-pip install . --user
+sudo pip install . --user
 python setup.py build_ext --inplace
 
 # install pycoco tools
