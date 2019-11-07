@@ -20,7 +20,7 @@
 Start by cloning this repo:
 
 ```
-git clone https://github.com/delmalih/mias-mammography-obj-detection
+git clone https://github.com/delmalih/MIAS-mammography-obj-detection
 ```
 
 ### 1. Faster R-CNN instructions
@@ -36,7 +36,7 @@ pip install -r requirements.txt
 cd ..
 ```
 
-- Then, run these commands :
+- Then, run these commands (ignore if you have already done the FCOS installation) :
 
 ```
 # install pytorch
@@ -66,13 +66,9 @@ python setup.py install --cuda_ext --cpp_ext
 cd $INSTALL_DIR
 git clone https://github.com/facebookresearch/maskrcnn-benchmark.git
 cd maskrcnn-benchmark
-
-# the following will install the lib with
-# symbolic links, so that you can modify
-# the files if you want and won't need to
-# re-build it
 python setup.py build develop
 
+cd $INSTALL_DIR
 unset INSTALL_DIR
 ```
 
@@ -133,21 +129,21 @@ rm all-mias.tar.gz && cd ..
 It is possible to generate COCO or VOC annotations from raw data (`all-mias` folder + `Info.txt` annotations file) through 2 scripts: `generate_{COCO|VOC}_annotations.py` :
 
 ```
-python generate_{COCO|VOC}_annotations --images (or -i) <Path to the images folder> \
-                                       --annotations (or -a) <Path to the .txt annotations file> \
-                                       --output (or -o) <Path to output folder> \
-                                       --aug_fact <Data augmentation factor> \
-                                       --train_val_split <Percetange of the train folder (default 0.9)>
+python generate_{COCO|VOC}_annotations.py --images (or -i) <Path to the images folder> \
+                                          --annotations (or -a) <Path to the .txt annotations file> \
+                                          --output (or -o) <Path to output folder> \
+                                          --aug_fact <Data augmentation factor> \
+                                          --train_val_split <Percetange of the train folder (default 0.9)>
 ```
 
 For example, to generate 10x augmented COCO annotations, run this command :
 
 ```
-python generate_COCO_annotations --images mias-db/ \
-                                 --annotations mias-db/Info.txt \
-                                 --output (or -o) mias-db/COCO \
-                                 --aug_fact 20 \
-                                 --train_val_split 0.9
+python generate_COCO_annotations.py --images mias-db/ \
+                                    --annotations mias-db/Info.txt \
+                                    --output (or -o) mias-db/COCO \
+                                    --aug_fact 20 \
+                                    --train_val_split 0.9
 ```
 
 ### 3. How to run a training
