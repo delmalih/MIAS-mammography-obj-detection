@@ -124,6 +124,8 @@ tar -zxvf all-mias.tar.gz
 rm all-mias.tar.gz && cd ..
 ```
 
+And replace the `mias-db/Info.txt` by [this one](https://raw.githubusercontent.com/delmalih/MIAS-mammography-obj-detection/master/utils/Info.txt)
+
 ### 2. Generate COCO or VOC augmented data
 
 It is possible to generate COCO or VOC annotations from raw data (`all-mias` folder + `Info.txt` annotations file) through 2 scripts: `generate_{COCO|VOC}_annotations.py` :
@@ -139,9 +141,9 @@ python generate_{COCO|VOC}_annotations.py --images (or -i) <Path to the images f
 For example, to generate 10x augmented COCO annotations, run this command :
 
 ```
-python generate_COCO_annotations.py --images mias-db/ \
-                                    --annotations mias-db/Info.txt \
-                                    --output (or -o) mias-db/COCO \
+python generate_COCO_annotations.py --images ../mias-db/ \
+                                    --annotations ../mias-db/Info.txt \
+                                    --output ../mias-db/COCO \
                                     --aug_fact 20 \
                                     --train_val_split 0.9
 ```
