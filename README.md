@@ -40,7 +40,7 @@ cd ..
 
 ```
 # install pytorch
-conda install -c pytorch pytorch-nightly torchvision cudatoolkit=10.0
+conda install pytorch==1.1.0 torchvision==0.3.0 cudatoolkit=9.0 -c pytorch
 
 export INSTALL_DIR=$PWD
 
@@ -172,6 +172,18 @@ To run a training with the Faster-RCNN:
     },
   }
 ```
+- In the `maskrcnn-benchmark/maskrcnn_benchmark/data/datasets/coco.py`, comment line 84 to 92 :
+```
+    # if anno and "segmentation" in anno[0]:
+    #     masks = [obj["segmentation"] for obj in anno]
+    #     masks = SegmentationMask(masks, img.size, mode='poly')
+    #     target.add_field("masks", masks)
+
+    # if anno and "keypoints" in anno[0]:
+    #     keypoints = [obj["keypoints"] for obj in anno]
+    #     keypoints = PersonKeypoints(keypoints, img.size)
+    #     target.add_field("keypoints", keypoints)
+```
 - Run this command :
 ```
 python train.py --config-file mias_config.yml
@@ -214,6 +226,8 @@ python train.py --config-file <Path to the config file> \
 ### 4. How to run an inference
 
 #### 4.1 Faster R-CNN
+
+To run an inference, you need a pre-trained model. Run this command:
 
 ```
 cd faster-r-cnn
