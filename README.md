@@ -66,11 +66,6 @@ python setup.py install --cuda_ext --cpp_ext
 cd $INSTALL_DIR
 git clone https://github.com/facebookresearch/maskrcnn-benchmark.git
 cd maskrcnn-benchmark
-
-# the following will install the lib with
-# symbolic links, so that you can modify
-# the files if you want and won't need to
-# re-build it
 python setup.py build develop
 
 unset INSTALL_DIR
