@@ -260,3 +260,12 @@ python inference.py --config-file <Path to the config file> \
                     MODEL.WEIGHT <Path to weights of the model to load> \
                     TEST.IMS_PER_BATCH <Nb of images per batch>
 ```
+
+### 5. Results
+
+|Metric|Faster-RCNN|RetinaNet|FCOS|
+|------|-----------|---------|----|
+|mAP   |
+|Precision|
+|Recall|
+|F1-score|
