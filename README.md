@@ -90,10 +90,12 @@ cd ..
 ```
 # clone keras-retinanet repo
 git clone https://github.com/fizyr/keras-retinanet
+cd keras-retinanet
 pip install . --user
 python setup.py build_ext --inplace
 
 # install pycoco tools
+cd ..
 pip install --user git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI
 ```
 
