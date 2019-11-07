@@ -80,7 +80,9 @@ unset INSTALL_DIR
 conda create --name retinanet
 conda activate retinanet
 conda install ipython pip
+cd mias-mammography-obj-detection
 pip install -r requirements.txt
+cd ..
 ```
 
 - Then, run these commands :
