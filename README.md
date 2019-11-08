@@ -265,7 +265,7 @@ python inference.py --config-file <Path to the config file> \
                     TEST.IMS_PER_BATCH <Nb of images per batch>
 ```
 
-### 5. Results
+## Results
 
 |Metric|Faster-RCNN|RetinaNet|FCOS|
 |------|-----------|---------|----|
