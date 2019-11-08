@@ -91,12 +91,8 @@ cd ..
 # clone keras-retinanet repo
 git clone https://github.com/fizyr/keras-retinanet
 cd keras-retinanet
-sudo pip install . --user
+pip install -r requirements.txt
 python setup.py build_ext --inplace
-
-# install pycoco tools
-cd ..
-pip install --user git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI
 ```
 
 - Finally, replace the `keras_retinanet/preprocessing/coco.py` file by [this file](https://github.com/delmalih/mias-mammography-obj-detection/blob/master/retinanet/coco.py)
