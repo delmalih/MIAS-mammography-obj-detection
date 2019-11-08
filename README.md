@@ -84,6 +84,7 @@ cd MIAS-mammography-obj-detection
 pip install -r requirements.txt
 cd ..
 pip install tensorflow-gpu==1.9
+pip install keras==2.2.5
 ```
 
 - Then, run these commands :
