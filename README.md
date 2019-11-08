@@ -77,12 +77,13 @@ unset INSTALL_DIR
 - First, create an environment :
 
 ```
-conda create --name retinanet
+conda create --name retinanet python=3.6
 conda activate retinanet
 conda install ipython pip
 cd MIAS-mammography-obj-detection
 pip install -r requirements.txt
 cd ..
+pip install tensorflow-gpu==1.9
 ```
 
 - Then, run these commands :
