@@ -31,7 +31,7 @@ git clone https://github.com/delmalih/MIAS-mammography-obj-detection
 conda create --name faster-r-cnn
 conda activate faster-r-cnn
 conda install ipython pip
-cd mias-mammography-obj-detection
+cd MIAS-mammography-obj-detection
 pip install -r requirements.txt
 cd ..
 ```
@@ -80,7 +80,7 @@ unset INSTALL_DIR
 conda create --name retinanet
 conda activate retinanet
 conda install ipython pip
-cd mias-mammography-obj-detection
+cd MIAS-mammography-obj-detection
 pip install -r requirements.txt
 cd ..
 ```
@@ -109,8 +109,9 @@ pip install --user git+https://github.com/cocodataset/cocoapi.git#subdirectory=P
 conda create --name fcos
 conda activate fcos
 conda install ipython pip
+cd MIAS-mammography-obj-detection
 pip install -r requirements.txt
-cd fcos
+cd ..
 ```
 
 - Then, follow [these instructions](https://github.com/tianzhi0549/FCOS#installation)
