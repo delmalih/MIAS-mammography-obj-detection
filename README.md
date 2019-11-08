@@ -91,7 +91,7 @@ cd ..
 # clone keras-retinanet repo
 git clone https://github.com/fizyr/keras-retinanet
 cd keras-retinanet
-pip install -r requirements.txt
+pip install .
 python setup.py build_ext --inplace
 ```
 
