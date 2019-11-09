@@ -272,3 +272,8 @@ python inference.py --config-file <Path to the config file> \
 |Precision|94,12%  |100,00%  |94,44%|
 |Recall|98,65%     |94,72%   |98,20%|
 |F1-score|96,22%   |96,93%   |96,25%|
+
+
+## Poster : Breast Cancer Detection Contest
+
+<img width="892" alt="Capture d’écran 2019-11-09 à 12 25 53" src="https://user-images.githubusercontent.com/54987951/68527857-1d940a00-02ec-11ea-8730-9b1355024239.png">
