@@ -1,4 +1,4 @@
-# Breast cancer tumor detection on mammograms
+# Breast cancer tumour detection on mammograms
 
 ## Requirements
 
