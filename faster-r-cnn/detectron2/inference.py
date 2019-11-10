@@ -39,10 +39,19 @@ def setup_cfg(args):
     return cfg
 
 def do_inference(predictor, args):
-    results = []
-    for img_src in tqdm(args.input):
+    results = {"images": [], "annotations": []}
+    
+    for i, img_src in tqdm(enumerate(args.input)):
         img = cv2.imread(img_src)
+        H, W = img.shape[:2]
         img_name = img_src.split("/")[-1]
+        results["images"].append({
+            "id": i,
+            "width": W,
+            "height": H,
+            "file_name": img_name
+        })
+
         output = predictor(img)
         fields = output["instances"].get_fields()
         pred_boxes = fields["pred_boxes"]
@@ -50,13 +59,14 @@ def do_inference(predictor, args):
         pred_classes = fields["pred_classes"]
         print(f"Image: {img_name} ! Found {len(pred_boxes)} instances !")
         for i, box in enumerate(pred_boxes):
-            xmin, ymin, xmax, ymax = box
-            results.append({
-                "img_name": img_name,
+            xmin, ymin, xmax, ymax = map(lambda x: x.item(), box)
+            results["annotations"].append({
+                "image_id": i,
                 "bbox": [xmin, ymin, xmax-xmin, ymax-ymin],
-                "score": scores[i],
-                "category_id": pred_classes[i]
+                "score": scores[i].item(),
+                "category_id": pred_classes[i].item(),
             })
+    
     return results
 
 
