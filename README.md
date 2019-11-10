@@ -36,7 +36,12 @@ pip install -r requirements.txt
 cd ..
 ```
 
-- Then, run these commands (ignore if you have already done the FCOS installation) :
+- Then, run these commands :
+
+```
+# install pytorch
+conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
+```
 
 ```
 # install pytorch
