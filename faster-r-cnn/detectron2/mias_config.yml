@@ -1,0 +1,15 @@
+_BASE_: "/home/ubuntu/detectron2/configs/Base-RetinaNet.yaml"
+MODEL:
+  WEIGHTS: "detectron2://COCO-Detection/faster_rcnn_R_101_FPN_3x/137851257/model_final_f6e8b1.pkl"
+  RESNETS:
+    DEPTH: 101
+SOLVER:
+  STEPS: (210000, 250000)
+  MAX_ITER: 270000
+  IMS_PER_BATCH: 4
+  CHECKPOINT_PERIOD: 500
+  BASE_LR: 0.00025
+  WARMUP_METHOD: "constant"
+DATASETS:
+  TRAIN: ("mias_train",)
+  TEST: ("mias_val",)
