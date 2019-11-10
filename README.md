@@ -39,8 +39,10 @@ cd ..
 - Then, run these commands :
 
 ```
-# install pytorch
+# install pytorch & other packages
 conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
+pip install cython
+pip install 'git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI'
 ```
 
 ```
