@@ -45,7 +45,7 @@ pip install cython
 pip install 'git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI'
 
 # build detectron2
-git clone git@github.com:facebookresearch/detectron2.git
+git clone https://github.com/facebookresearch/detectron2
 cd detectron2
 python setup.py build develop
 ```
