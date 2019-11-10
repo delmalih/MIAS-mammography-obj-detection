@@ -43,40 +43,11 @@ cd ..
 conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
 pip install cython
 pip install 'git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI'
-```
 
-```
-# install pytorch
-conda install pytorch==1.1.0 torchvision==0.3.0 cudatoolkit=9.0 -c pytorch
-
-export INSTALL_DIR=$PWD
-
-# install pycocotools
-cd $INSTALL_DIR
-git clone https://github.com/cocodataset/cocoapi.git
-cd cocoapi/PythonAPI
-python setup.py build_ext install
-
-# install cityscapesScripts
-cd $INSTALL_DIR
-git clone https://github.com/mcordts/cityscapesScripts.git
-cd cityscapesScripts/
-python setup.py build_ext install
-
-# install apex
-cd $INSTALL_DIR
-git clone https://github.com/NVIDIA/apex.git
-cd apex
-python setup.py install --cuda_ext --cpp_ext
-
-# install PyTorch Detection
-cd $INSTALL_DIR
-git clone https://github.com/facebookresearch/maskrcnn-benchmark.git
-cd maskrcnn-benchmark
+# build detectron2
+git clone git@github.com:facebookresearch/detectron2.git
+cd detectron2
 python setup.py build develop
-
-cd $INSTALL_DIR
-unset INSTALL_DIR
 ```
 
 ### 2. RetinaNet instructions
