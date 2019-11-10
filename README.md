@@ -12,7 +12,6 @@
 - Faster-RCNN paper: [arxiv.org/pdf/1506.01497.pdf](https://arxiv.org/pdf/1506.01497.pdf)
 - RetinaNet paper: [arxiv.org/pdf/1708.02002.pdf](https://arxiv.org/pdf/1708.02002.pdf)
 - FCOS paper: [arxiv.org/pdf/1904.01355.pdf](https://arxiv.org/pdf/1904.01355.pdf)
-
 - Faster-RCNN & RetinaNet implementations (Detectron2): [github.com/facebookresearch/detectron2](https://github.com/facebookresearch/detectron2)
 - FCOS implem. repo.: [github.com/tianzhi0549/FCOS](https://github.com/tianzhi0549/FCOS)
 
