@@ -2,17 +2,18 @@
 
 ## Requirements
 
+- Ubuntu 18.04
 - GCC >= 4.9
-- CUDA 9.0 & cuDNN 7.0 ([install. instructions](https://gist.github.com/zhanwenchen/e520767a409325d9961072f666815bb8#install-nvidia-graphics-driver-via-apt-get))
+- CUDA 10.1 & cuDNN 7.6
 - Anaconda 3 ([install. instructions](https://problemsolvingwithpython.com/01-Orientation/01.05-Installing-Anaconda-on-Linux/))
 
 ## References
 
 - Faster-RCNN paper: [arxiv.org/pdf/1506.01497.pdf](https://arxiv.org/pdf/1506.01497.pdf)
-- Faster-RCNN implem. repo.: [github.com/facebookresearch/maskrcnn-benchmark](https://github.com/facebookresearch/maskrcnn-benchmark)
 - RetinaNet paper: [arxiv.org/pdf/1708.02002.pdf](https://arxiv.org/pdf/1708.02002.pdf)
-- RetinaNet implem. repo.: [github.com/fizyr/keras-retinanet](https://github.com/fizyr/keras-retinanet)
 - FCOS paper: [arxiv.org/pdf/1904.01355.pdf](https://arxiv.org/pdf/1904.01355.pdf)
+
+- Faster-RCNN & RetinaNet implementations (Detectron2): [github.com/facebookresearch/detectron2](https://github.com/facebookresearch/detectron2)
 - FCOS implem. repo.: [github.com/tianzhi0549/FCOS](https://github.com/tianzhi0549/FCOS)
 
 ## Installation instructions
