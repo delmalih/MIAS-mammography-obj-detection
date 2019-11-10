@@ -48,6 +48,7 @@ pip install 'git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonA
 git clone https://github.com/facebookresearch/detectron2
 cd detectron2
 python setup.py build develop
+cd ..
 ```
 
 ### 2. RetinaNet instructions
