@@ -41,7 +41,7 @@ cd ..
 ```
 # install pytorch & other packages
 conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
-pip install cython
+pip install cython cloudpickle tabulate tensorboard
 pip install 'git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI'
 pip install git+https://github.com/facebookresearch/fvcore.git
 
